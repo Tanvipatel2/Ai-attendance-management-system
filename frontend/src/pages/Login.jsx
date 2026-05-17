@@ -16,8 +16,18 @@ export default function Login() {
     try {
       const res = await API.post("/login/", form);
       localStorage.setItem("user", JSON.stringify(res.data.user));
-      alert("Login successful");
-      navigate("/dashboard");
+
+    const role = res.data.user.role;
+
+    alert("Login successful");
+
+    if (role === "ADMIN") {
+      navigate("/admin/dashboard");
+    } else if (role === "FACULTY") {
+      navigate("/faculty/dashboard");
+    } else {
+      navigate("/student/dashboard");
+    }
     } catch (error) {
       alert("Invalid login");
     }
